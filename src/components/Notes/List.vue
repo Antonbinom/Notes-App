@@ -11,7 +11,7 @@
 				<TagList
 				isPreview
 				v-if="note.tag && note.tag.length"
-				:items="note.tag"
+			:items="note.tag"
 				/>
 			</div>
 		</div>
