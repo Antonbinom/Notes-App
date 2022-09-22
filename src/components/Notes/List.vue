@@ -2,23 +2,32 @@
 <!-- eslint-disable vue/valid-template-root -->
 <template>
 	<div class="notes-list">
-		<div class="notes-item" v-for="(note, index) in items" :key="index">
+		<div class="notes-item"  v-for="(note, index) in items" :key="index">
 			<div class="notes-header">
-				<span>{{note}}</span>
+				<span>{{note.title}}</span>
 				<span class="notes-remove" @click="$emit('onRemove', index)">&#10005;</span>
+			</div>
+			<div class="notes-footer">
+				<TagList
+				isPreview
+				v-if="note.tag && note.tag.length"
+				:items="note.tag"
+				/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import TagList from '../UI/TagList.vue';
 export default {
-	props: {
-		items: {
-			type: Array,
-			required: true,
-		}
-	}
+    props: {
+        items: {
+            type: Array,
+            required: true,
+        },
+    },
+    components: { TagList }
 }
 </script>
 
