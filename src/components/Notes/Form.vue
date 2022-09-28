@@ -3,8 +3,8 @@
 <template>
 	<div class="note-form__wrapper">
 		<form class="note-form" @submit.prevent="onSubmit" >
-			<textarea required v-model="value" placeholder="Добавьте запись"></textarea>
-			<TagList :items="tags" @onClickItem="tagValue"/>
+			<textarea required v-model="value" @input="inputValue" placeholder="Добавьте запись"></textarea>
+			<TagList :items="getTags" @onClickItem="tagValue"/>
 			<button class="btn btnPrimary" type="submit">Добавить запись</button>
 		</form>
 	</div>
@@ -17,23 +17,23 @@ export default {
     data() {
         return {
             value: "",
-						activeTags: [],
-            tags: [{title: "music", status: false}, {title:"job", status: false}, {title:"study", status: false}, {title:"travel", status: false}, {title:"sport", status: false}],
         };
     },
+		computed: {
+			getTags(){
+				return this.$store.getters.getTags
+			}
+		},
     methods: {
-				tagValue({title, index}) {
-					this.tagName = title;
-					this.tags[index].status = !this.tags[index].status
+				inputValue(event){
+				this.$store.dispatch('setValue', [event.target.value])
+				},
+				tagValue({index}) {
+					this.$store.dispatch('tagValue', [index])
 				},
         onSubmit() {
-						this.tags.forEach(tag => {
-							if (tag.status) this.activeTags.push(tag.title)
-						})
-            this.$emit("onSubmit", {value: this.value, tag: this.activeTags});
-						this.tags.forEach(item=>item.status=false);
-            this.value = "";
-						this.activeTags = [];
+						this.$store.dispatch('submitNote', [this.value])
+						this.value = ''
 					},
     },
 }

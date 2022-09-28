@@ -1,61 +1,39 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/valid-template-root -->
 <template>
-	<Form @onSubmit="handleSubmit"/>
-	<List @onRemove="handleRemove" :items="notes"/>
+	<Form />
+	<List @onRemove="handleRemove" :items="getNote"/>
 </template>
 
 <script>
 	import Form from '@/components/Notes/Form.vue';
 	import List from '@/components/Notes/List.vue';
+	import {updateNotes} from '@/util/updateNotes.js'
 	export default {
 		components:{ Form, List },
-		data(){
-			return {
-				notes: [
-					{
-						title: 'Play guitar',
-					tag: ['music', 'job']
-				},
-					{
-						title: 'Learn Vue3',
-					tag: ['study']
-				},
-					{
-						title: 'Do yoga',
-					tag: ['sport']
-				},
-					{
-						title: 'Заработать денег',
-				},
-				],
-			}
-		},
 	mounted(){
-		this.getNotes()
+		this.setNotes()
 	},
 	watch: {
-		notes: {
+		"$store.state.notes": {
 			handler(updateList) {
 				localStorage.setItem('notes', JSON.stringify(updateList));
 			},
 			deep: true,
 		}
 	},
+		computed: {
+			getNote() {
+				return this.$store.getters.getNotes
+			}
+		},
 		methods: {
-			getNotes(){
-				const localNotes = localStorage.getItem('notes')
-				if (localNotes) {
-					this.notes = JSON.parse(localNotes)
-				}
+			setNotes(){
+				updateNotes(this.$store)
 			},
 			handleRemove(item) {
-				this.notes.splice(item, 1)
+				this.$store.dispatch('removeNote', [item])
 			},
-			handleSubmit({value, tag}) {
-				this.notes.push({title: value, tag:[...tag]});
-				this.tag = tag;
-			}
 		}
 	}
 </script>
