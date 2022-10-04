@@ -1,24 +1,26 @@
-# vue-cli-template
+# Note-App
 
-## Project setup
-```
-npm install
-```
+## Описание
 
-### Compiles and hot-reloads for development
-```
+Приложение планировщик/ежедневник
+
+## Функционал
+
+- Добавление/удаление заметок
+- Добавление тегов для заметок
+- Сохранение заметок при перезагрузке
+
+
+## Стек технологий
+
+- Vue3
+- Vuex - хранилище состояний
+- Options Api
+- Vue-router - переход на страницы без перезагрузки
+- Vue-cli
+
+## 
 npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## <a href="https://notes-app-qfvj.vercel.app/#/">Ссылка</a>
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
